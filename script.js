@@ -30,8 +30,16 @@ function computerPlay() {
     computerSelection = computerMove;
 }
 
+function playerSelectionFormatting() {
+    let firstLetter = playerSelection.charAt(0).toUpperCase();
+    let restOfWord = playerSelection.toLowerCase().slice(1);
+
+    playerSelection = firstLetter + restOfWord;
+}
+
 function playerPlay() {
     playerSelection = prompt("Please enter your choice: ");
+    playerSelectionFormatting();
 }
 
 function detectDraw() {
