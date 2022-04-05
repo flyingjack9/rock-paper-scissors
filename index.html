@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
     <div class="header">
@@ -17,21 +17,27 @@
 
     <div class="game-panel">
         <div class="player-moves">
-            <button class="select-move"><img src="img/fist.svg"></button>
-            <button class="select-move"><img src="img/scissors.svg"></button>
-            <button class="select-move"><img src="img/paper.svg"></button>
+            <button onclick=playerSelection(Rock) class="select-move"><img src="img/rock.svg"></button>
+            <button onclick=playerSelection(Scissors) class="select-move"><img src="img/scissors.svg"></button>
+            <button onclick=playerSelection(Paper) class="select-move"><img src="img/paper.svg"></button>
         </div>
         <div class="middle-section">
             <div class="versus">
                 <img src="img/versus.svg">
             </div>
             <div class="scoreboard">
-                <h1>Player - <span style="color: #FF717E">Computer</span></h1>
-                <h1>00 - <span style="color: #FF717E">00</span></h1>
+                <h1 id="resultScreen">Result : </h1>
+                <h1>Player - 
+                    <span class="computerBoardStyling">Computer</span>
+                </h1>
+                <h1>
+                    <span id="playerScoreboard">00</span> - 
+                    <span id="computerScoreboard" class="computerBoardStyling">00</span>
+                </h1>
             </div>
         </div>
         <div class="computer-move">
-            <img src="img/mystery.svg">
+            <img id="computerMoveImg" src="img/mystery.svg">
         </div>
 
     </div>

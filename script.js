@@ -2,48 +2,49 @@ const Rock = "Rock";
 const Paper = "Paper";
 const Scissors = "Scissors";
 
-let playerSelection;
-let computerSelection;
+const rockFilePath = "img/rock.svg";
+const scissorsFilePath = "img/scissors.svg";
+const paperFilePath = "img/paper.svg";
+const mysteryFilePath = "img/mystery.svg";
 
+let computerSelection;
+let playerChoice;
+
+let playerScore = 0;
+let computerScore = 0;
+
+function playerSelection(selection) {
+    document.getElementById("resultScreen").style.color = "white";
+    playerChoice = selection;
+    console.log(playerChoice);
+    game();
+}
 
 function getRandomInt() {
     return Math.floor(Math.random() * 3);
 }
 
 function computerPlay() {
-    let computerMove;
-
     switch(getRandomInt()) {
         case 0:
-            computerMove = Rock;
+            computerSelection = Rock;
+            document.getElementById("computerMoveImg").src = rockFilePath;
             break;
         
         case 1:
-            computerMove = Paper;
+            computerSelection = Scissors;
+            document.getElementById("computerMoveImg").src = scissorsFilePath;
             break;
             
         case 2:
-            computerMove = Scissors;
+            computerSelection = Paper;
+            document.getElementById("computerMoveImg").src = paperFilePath;
             break;         
     }
-
-    computerSelection = computerMove;
-}
-
-function playerSelectionFormatting() {
-    let firstLetter = playerSelection.charAt(0).toUpperCase();
-    let restOfWord = playerSelection.toLowerCase().slice(1);
-
-    playerSelection = firstLetter + restOfWord;
-}
-
-function playerPlay() {
-    playerSelection = prompt("Please enter your choice: ");
-    playerSelectionFormatting();
 }
 
 function detectDraw() {
-    return (playerSelection === computerSelection);
+    return (playerChoice === computerSelection);
 }
 
 function rockPlay() {
@@ -61,40 +62,73 @@ function scissorsPlay() {
 function roundResult() {
     let result;
 
-    switch(playerSelection) {
-        case Rock:
-            result = rockPlay();
-            break;
+    if (detectDraw()) {
+        result = "DRAW";
+    } else {
+        switch(playerChoice) {
+            case Rock:
+                result = rockPlay();
+                break;
+    
+            case Paper:
+                result = paperPlay();
+                break;
+                
+            case Scissors:
+                result = scissorsPlay();
+                break;    
+        }
 
-        case Paper:
-            result = paperPlay();
-            break;
-            
-        case Scissors:
-            result = scissorsPlay();
-            break;    
+        result = result ? "WIN" : "LOSE";
     }
-    return result;
+    updateScoreBoard(result);
 }
 
-function playRound() {
-    let roundResultMsg;
+function updateScoreDisplay () {
+    document.getElementById("playerScoreboard").innerHTML = `0${playerScore}`;
+    document.getElementById("computerScoreboard").innerHTML = `0${computerScore}`;
+}
 
-    if (detectDraw()) {
-        roundResultMsg = `Draw! You both chose ${playerSelection}`;
-    } else {
-        roundResultMsg = 
-            roundResult() ? 
-            `You Win! ${playerSelection} beats ${computerSelection}` :
-            `You Lose! ${computerSelection} beats ${playerSelection}`;
+function updateScoreBoard(aResult) {
+    switch(aResult) {
+        case "WIN":
+            playerScore++;
+            playerScore === 5 ? endGame() 
+                : document.getElementById("resultScreen").innerHTML = "Result : You WIN!";
+            break;
+
+        case "LOSE":
+            computerScore++;
+            computerScore === 5 ? endGame() 
+                : document.getElementById("resultScreen").innerHTML = "Result : You LOSE!";
+            break;
+        
+        case "DRAW":
+            document.getElementById("resultScreen").innerHTML = "Result : DRAW!";
+            break;
     }
-    return roundResultMsg;
+}
+
+function winScoreBoard() {
+    document.getElementById("resultScreen").innerHTML = "You WIN the game!";
+    document.getElementById("resultScreen").style.color = "green";
+}
+
+function loseScoreBoard() {
+    document.getElementById("resultScreen").innerHTML = "You LOST the game!";
+    document.getElementById("resultScreen").style.color = "red";
+}
+
+function endGame() {
+    playerScore === 5 ? winScoreBoard() : loseScoreBoard();
+    document.getElementById("computerMoveImg").src = mysteryFilePath;
+    playerScore = 0;
+    computerScore = 0;
+    updateScoreDisplay();
 }
 
 function game() {
-    for (let i = 0; i < 5; i++) {
-        playerPlay();
-        computerPlay();
-        console.log(playRound());
-    }
+    computerPlay();
+    roundResult();
+    updateScoreDisplay();
 }

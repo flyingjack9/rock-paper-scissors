@@ -15,12 +15,16 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    align-content: center;
     align-items: center;
 }
 
 .player-moves {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    height: 40rem;
+    width: 40rem;
 }
 
 .select-move {
@@ -75,5 +79,9 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-   
+    align-items: center;
+}
+
+.computerBoardStyling {
+    color: #FF717E;
 }
